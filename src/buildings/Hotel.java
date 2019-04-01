@@ -12,8 +12,6 @@ public class Hotel extends Address{
         this.hotelName = hotelName;
         this.hotelRating = hotelRating;
         this.hotelCapacity = hotelCapacity;
-
-
     }
 
     public String getHotelName() {
