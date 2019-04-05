@@ -1,34 +1,23 @@
 package buildings;
 
-/**
- * Created by Ionut on 3/31/2019.
- */
-public class Hotel extends Address{
+public class Hotel{
     private String hotelName;
-    private double hotelRating;
+    private float hotelRating;
     private int hotelCapacity;
 
-    public Hotel(String hotelName, double hotelRating, int hotelCapacity){
+    public Hotel(String hotelName, float hotelRating, int hotelCapacity){
+
         this.hotelName = hotelName;
         this.hotelRating = hotelRating;
         this.hotelCapacity = hotelCapacity;
     }
-
     public String getHotelName() {
         return hotelName;
     }
-
-    public double getHotelRating() {
+    public float getHotelRating() {
         return hotelRating;
     }
-
     public int getHotelCapacity() {
         return hotelCapacity;
     }
-
-    @Override
-    public String toString() {
-        return "Name: " + hotelName + ", Rating: " + hotelRating + ", Capacity: " + hotelCapacity;
-    }
-
 }

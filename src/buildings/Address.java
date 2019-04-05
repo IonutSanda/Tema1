@@ -3,38 +3,21 @@ package buildings;
 /**
  * Created by Ionut on 3/31/2019.
  */
-public class Address {
+public class Address extends Hotel {
+    private final String streetName;
+    private final int hotelNumber;
+    private final String hotelCity;
 
-    private String buildingCity;
-    private String streetName;
-    private int buildingNumber;
-
-    public String getBuildingCity() {
-        return buildingCity;
-    }
-
-    private void setBuildingCity(String buildingCity) {
-        this.buildingCity = buildingCity;
-    }
-
-    public String getStreetName() {
-        return streetName;
-    }
-
-    private void setStreetName(String streetName) {
+    public Address(String streetName, int hotelNumber, String hotelCity, String hotelName, float hotelRating, int hotelCapacity) {
+        super(hotelName, hotelRating, hotelCapacity);
         this.streetName = streetName;
-    }
+        this.hotelNumber = hotelNumber;
+        this.hotelCity = hotelCity;
 
-    public int getBuildingNumber() {
-        return buildingNumber;
-    }
-
-    private void setBuildingNumber(int buildingNumber) {
-        this.buildingNumber = buildingNumber;
     }
 
     @Override
-    public String toString(){
-        return "Street: " + streetName + ", Nr: " + buildingNumber + ", City: " + buildingCity;
+    public String toString() {
+        return "Address: " + streetName + ", " + hotelNumber + ", " + hotelCity + ", Hotel name: " + getHotelName() + ", Hotel Rating: " + getHotelRating() + ", Hotel Capacity: " + getHotelCapacity();
     }
 }
