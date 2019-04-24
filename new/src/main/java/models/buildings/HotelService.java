@@ -10,7 +10,7 @@ public class HotelService {
     }
 
     public String validateAndAdd(Hotel hotel) {
-        if (hotel.getName().equals("")) {
+        if (hotel.getHotelName().equals("")) {
             return "Please enter a Hotel name";
         }
         if (hotel.getCapacity() < 100) {

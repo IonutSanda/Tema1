@@ -23,7 +23,7 @@ public class Hotel extends Address {
     public String getName() {
         return name;
     }
-    private String getHotelName() {
+    public String getHotelName() {
         return "Hotel Name: " + name;
     }
 

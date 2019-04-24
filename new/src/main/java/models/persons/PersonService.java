@@ -10,6 +10,7 @@ public class PersonService {
         this.personRepository = personRepository;
     }
 
+    @SuppressWarnings("deprecation")
     public String validateClientAndAdd(Person client) {
 
         if (client.getClientAge() < 18) {
