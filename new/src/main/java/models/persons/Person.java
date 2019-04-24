@@ -9,20 +9,28 @@ public class Person{
     private String clientEmail;
     private String employeeEmail;
     private static String employeeNumber;
+    private Gender gender;
 
-    public Person(String clientName, int clientAge, String clientEmail) {
+    public Person(String clientName, int clientAge, String clientEmail, Gender gender) {
         this.clientName = clientName;
         this.clientAge = clientAge;
         this.clientEmail = clientEmail;
+        this.gender = gender;
     }
 
-    public Person(String employeeName, String employeeEmail, int employeeAge, String employeeNumber) {
+    public Person(String employeeName, String employeeEmail, int employeeAge, String employeeNumber, Gender gender) {
         this.employeeName = employeeName;
         this.employeeEmail = employeeEmail;
         this.employeeAge = employeeAge;
         Person.employeeNumber = employeeNumber;
+        this.gender = gender;
     }
 
+    public Gender getGender(){
+        return gender;
+    }
+
+    @Deprecated
     public String getClientName() {
         return clientName;
     }
@@ -79,8 +87,9 @@ public class Person{
         Person.employeeNumber = employeeNumer;
     }
 
+    @SuppressWarnings("deprecation")
     public String getClientDetails(){
-        return "Name: " + clientName + ", Age: " + clientAge + ", E-mail: " + clientEmail;
+        return "Name: " + getClientName() + ", Age: " + clientAge + ", E-mail: " + clientEmail;
     }
 
     public String getEmployeeDetails(){

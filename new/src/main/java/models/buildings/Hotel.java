@@ -5,16 +5,26 @@ public class Hotel extends Address {
     private String name;
     private int capacity;
     private double rating;
+    private HasCapacity hasCapacity;
 
-    public Hotel(String name, int capacity, double rating, String streetName, int number, String city) {
+    public Hotel(String name, int capacity, double rating, String streetName, int number, String city, HasCapacity hasCapacity) {
         super(streetName, number, city);
         this.name = name;
         this.capacity = capacity;
         this.rating = rating;
+        this.hasCapacity = hasCapacity;
     }
 
+    public String isAvailable(){
+        return hasCapacity.getMessage();
+    }
+
+    @Deprecated
     public String getName() {
         return name;
+    }
+    private String getHotelName() {
+        return "Hotel Name: " + name;
     }
 
     public void setName(String name) {
@@ -38,6 +48,6 @@ public class Hotel extends Address {
     }
 
     public String toString(){
-        return "Hotel name: " + name + ", Capacity: " + capacity + ", Rating: " + rating;
+        return getHotelName() + ", Capacity: " + capacity + ", Rating: " + rating;
     }
 }

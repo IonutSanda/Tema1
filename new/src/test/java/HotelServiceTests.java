@@ -1,3 +1,4 @@
+import models.buildings.HasCapacity;
 import models.buildings.Hotel;
 import models.buildings.HotelRepository;
 import models.buildings.HotelService;
@@ -27,7 +28,7 @@ public class HotelServiceTests {
     @Test
     public void should_Add_After_Validation(){
         //GIVEN
-        Hotel hotel = new Hotel("Ibis",250,4.7,"Street",26,"Cluj");
+        Hotel hotel = new Hotel("Ibis",250,4.7,"Street",26,"Cluj", HasCapacity.HAS_CAPACITY);
         doReturn("added").when(hotelRepository).add(any(Hotel.class));
         //WHEN
         String response = hotelService.validateAndAdd(hotel);
@@ -38,7 +39,7 @@ public class HotelServiceTests {
     @Test
     public void should_removeHotel(){
         //GIVEN
-        Hotel hotel = new Hotel("Ibis",300,4.6,"Street",25,"Cluj");
+        Hotel hotel = new Hotel("Ibis",300,4.6,"Street",25,"Cluj", HasCapacity.NO_CAPACITY);
         doReturn("removed").when(hotelRepository).remove(any(Hotel.class));
         //WHEN
         String response = hotelService.delete(hotel);

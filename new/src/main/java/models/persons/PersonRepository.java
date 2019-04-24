@@ -3,7 +3,7 @@ package models.persons;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PersonRepository implements PersonInterface {
+public class PersonRepository implements Client, Employee {
 
     private List<Person> clients = new ArrayList<>();
     private List<Person> employees = new ArrayList<>();

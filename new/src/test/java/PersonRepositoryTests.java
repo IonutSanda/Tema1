@@ -1,3 +1,4 @@
+import models.persons.Gender;
 import models.persons.Person;
 import models.persons.PersonRepository;
 import org.junit.Before;
@@ -17,7 +18,7 @@ public class PersonRepositoryTests {
     @Test
     public void should_Add_Client_If_Validdata(){
         //GIVEN
-        Person client = new Person("Ionut Sanda",27,"sanda@me.com");
+        Person client = new Person("Ionut Sanda",27,"sanda@me.com",Gender.MALE);
         //WHEN
         String response = personRepository.addClient(client);
         //THEN
@@ -26,7 +27,7 @@ public class PersonRepositoryTests {
     @Test
     public void should_Add_Employee_If_Validdata(){
         //GIVEN
-        Person employee = new Person("Ionut Sanda","ionut@me.com",27,"123ABC");
+        Person employee = new Person("Ionut Sanda","ionut@me.com",27,"123ABC",Gender.MALE);
         //WHEN
         String response = personRepository.addEmployee(employee);
         //THEN
@@ -37,7 +38,7 @@ public class PersonRepositoryTests {
     @Test
     public void should_Delete_Client(){
         //GIVEN
-        Person client = new Person ("Ionut Sanda",27,"sanda@me.com");
+        Person client = new Person ("Ionut Sanda",27,"sanda@me.com",Gender.MALE);
         //WHEN
         String response = personRepository.removeClient(client);
         //THEN
@@ -46,7 +47,7 @@ public class PersonRepositoryTests {
     @Test
     public void should_Delete_Employee(){
         //GIVEN
-        Person employee = new Person("Ionut Sanda","ionut@me.com",27,"123ABC");
+        Person employee = new Person("Ionut Sanda","ionut@me.com",27,"123ABC",Gender.MALE);
         //WHEN
         String response = personRepository.removeEmployee(employee);
         //THEN

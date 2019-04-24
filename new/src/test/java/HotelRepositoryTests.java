@@ -1,3 +1,4 @@
+import models.buildings.HasCapacity;
 import models.buildings.Hotel;
 import models.buildings.HotelRepository;
 import org.junit.Before;
@@ -18,7 +19,7 @@ public class HotelRepositoryTests {
     public void should_Add_Hotel_If_ValidData(){
 
         //GIVEN
-        Hotel hotel = new Hotel("Ibis",150,4.3,"Ibis Street",27,"Cluj");
+        Hotel hotel = new Hotel("Ibis",150,4.3,"Ibis Street",27,"Cluj", HasCapacity.HAS_CAPACITY);
 
         //WHEN
         String response = hotelRepository.add(hotel);
@@ -31,7 +32,7 @@ public class HotelRepositoryTests {
     @Test
     public void should_Remove_Hotel_If_ValidData(){
         //GIVEN
-        Hotel hotel = new Hotel("Ibis",250,4.5,"Streetname",25,"Cluj");
+        Hotel hotel = new Hotel("Ibis",250,4.5,"Streetname",25,"Cluj", HasCapacity.HAS_CAPACITY);
         //WHEN
         String response = hotelRepository.remove(hotel);
 //        THEN
