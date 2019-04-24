@@ -9,8 +9,6 @@ import models.persons.Person;
 import models.persons.PersonRepository;
 import models.persons.PersonService;
 
-import java.util.Arrays;
-
 public class MainClass {
 
     public static void main(String[] args) {
@@ -71,7 +69,7 @@ public class MainClass {
             System.out.println("Name: " + employee.getEmployeeName());
             System.out.println("Age: " + employee.getEmployeeAge());
             System.out.println("Gender: " + employee.getGender());
-            System.out.println("Employee Number: " + employee.getEmployeeNumer());
+            System.out.println("Employee Number: " + employee.getEmployeeNumber());
             System.out.println();
 
             System.out.println(firstClient.getClientDetails());

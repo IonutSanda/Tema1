@@ -24,15 +24,16 @@ public class PersonService {
         return "Client has been added";
     }
 
-    public void deleteClient(Person client) {
+    public String deleteClient(Person client) {
         personRepository.removeClient(client);
+        return "removed Client";
     }
 
     public String validateEmployeeAndAdd(Person employee) {
         if (employee.getEmployeeAge() < 21) {
             return "Employee is underaged";
         }
-        if (employee.getEmployeeNumer().equals("")) {
+        if (employee.getEmployeeNumber().equals("")) {
             return "Employee Number is invalid";
         }
 
@@ -40,8 +41,9 @@ public class PersonService {
         return "Employee has been added";
     }
 
-    public void deleteEmployee(Person employee) {
+    public String deleteEmployee(Person employee) {
         personRepository.removeEmployee(employee);
+        return "removed Employee";
     }
 
     public List<Person> getClients() {

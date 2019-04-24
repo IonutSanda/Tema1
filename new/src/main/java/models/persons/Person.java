@@ -79,12 +79,12 @@ public class Person{
         this.employeeEmail = employeeEmail;
     }
 
-    public String getEmployeeNumer() {
+    public String getEmployeeNumber() {
         return employeeNumber;
     }
 
-    public void setEmployeeNumer(String employeeNumer) {
-        Person.employeeNumber = employeeNumer;
+    public void setEmployeeNumber(String employeeNumber) {
+        Person.employeeNumber = employeeNumber;
     }
 
     @SuppressWarnings("deprecation")
