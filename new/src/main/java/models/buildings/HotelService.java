@@ -9,8 +9,12 @@ public class HotelService {
         this.hotelRepository = hotelRepository;
     }
 
+    @SuppressWarnings("deprecation")
     public String validateAndAdd(Hotel hotel) {
         if (hotel.getHotelName().equals("")) {
+            return "Please enter a Hotel name";
+        }
+        if (hotel.getName().length() < 1){
             return "Please enter a Hotel name";
         }
         if (hotel.getCapacity() < 100) {

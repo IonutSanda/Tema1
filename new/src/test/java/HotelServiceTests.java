@@ -49,6 +49,16 @@ public class HotelServiceTests {
     }
 
     @Test
+    public void shouldNot_Add_If_Name_IsEmpty(){
+        //GIVEN
+        Hotel hotel = new Hotel("",250,4.7,"Street",26,"Cluj", HasCapacity.HAS_CAPACITY);
+        //WHEN
+        String response = hotelService.validateAndAdd(hotel);
+        //THEN
+        assertEquals("Please enter a Hotel name", response);
+    }
+
+    @Test
     public void shouldNot_Add_If_Capacity_TooLow(){
         //GIVEN
         Hotel hotel = new Hotel("Ibis",20,4.7,"Street",26,"Cluj", HasCapacity.HAS_CAPACITY);

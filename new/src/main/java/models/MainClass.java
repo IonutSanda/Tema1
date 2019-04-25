@@ -75,6 +75,7 @@ public class MainClass {
             System.out.println(firstClient.getClientDetails());
             System.out.println(firstEmployee.getEmployeeDetails());
             System.out.println(firstHotel.toString());
+
         }
     }
 }

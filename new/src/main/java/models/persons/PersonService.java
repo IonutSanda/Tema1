@@ -19,6 +19,9 @@ public class PersonService {
         if (client.getClientName().equals("")) {
             return "Please enter the Clients name";
         }
+        if (client.getClientName().length() < 1){
+            return "Please enter a name";
+        }
 
         personRepository.addClient(client);
         return "Client has been added";

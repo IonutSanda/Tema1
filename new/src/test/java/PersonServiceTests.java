@@ -78,6 +78,16 @@ public class PersonServiceTests {
         //THEN
         assertEquals("Please enter the Clients name",response);
     }
+    @Test
+    public void shouldNot_Add_Client_If_Name_IsEmpty(){
+        //GIVEN
+        Person client = new Person("", 25, "sanda@me.com", Gender.MALE);
+        //WHEN
+        String response = personService.validateClientAndAdd(client);
+        //THEN
+        assertEquals("Please enter the Clients name", response);
+
+    }
     @Test(expected = NullPointerException.class)
     public void shouldNot_Add_Employee_If_EmployeeNumberIsNull(){
         //GIVEN
