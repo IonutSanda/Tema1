@@ -1,4 +1,6 @@
-package models.persons;
+package model.person;
+
+import model.enumaration.Gender;
 
 public class Person{
 

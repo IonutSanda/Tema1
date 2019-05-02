@@ -1,4 +1,4 @@
-package models.buildings;
+package model;
 
 public class Address {
 
@@ -6,33 +6,33 @@ public class Address {
     private int number;
     private static String city;
 
-    Address(String streetName, int number, String city) {
+    protected Address(String streetName, int number, String city) {
         this.streetName = streetName;
         this.number = number;
         Address.city = city;
     }
 
-    public String getStreetName() {
+    protected String getStreetName() {
         return streetName;
     }
 
-    public void setStreetName(String streetName) {
+    protected void setStreetName(String streetName) {
         this.streetName = streetName;
     }
 
-    public int getNumber() {
+    protected int getNumber() {
         return number;
     }
 
-    public void setNumber(int number) {
+    protected void setNumber(int number) {
         this.number = number;
     }
 
-    public String getCity() {
+    protected String getCity() {
         return city;
     }
 
-    public void setCity(String city) {
+    protected void setCity(String city) {
         Address.city = city;
     }
 }

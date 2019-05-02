@@ -1,4 +1,4 @@
-package models.buildings;
+package model.enumaration;
 
 public enum HasCapacity {
 

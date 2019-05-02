@@ -1,4 +1,8 @@
-package models.persons;
+package service;
+
+import model.ValidationException;
+import model.person.Person;
+import repository.PersonRepository;
 
 import java.util.List;
 
@@ -11,8 +15,11 @@ public class PersonService {
     }
 
     @SuppressWarnings("deprecation")
-    public String validateClientAndAdd(Person client) {
+    public String validateClientAndAdd(Person client) throws ValidationException {
 
+        if (client.getClientAge() < 0){
+            throw new ValidationException("Age can not be negative");
+        }
         if (client.getClientAge() < 18) {
             return "Client is underaged";
         }
@@ -27,7 +34,7 @@ public class PersonService {
         return "Client has been added";
     }
 
-    public String deleteClient(Person client) {
+    public String deleteClient(Person client) throws ValidationException {
         personRepository.removeClient(client);
         return "removed Client";
     }
@@ -44,7 +51,7 @@ public class PersonService {
         return "Employee has been added";
     }
 
-    public String deleteEmployee(Person employee) {
+    public String deleteEmployee(Person employee) throws ValidationException {
         personRepository.removeEmployee(employee);
         return "removed Employee";
     }

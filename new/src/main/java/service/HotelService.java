@@ -1,4 +1,8 @@
-package models.buildings;
+package service;
+
+import model.ValidationException;
+import model.building.Hotel;
+import repository.HotelRepository;
 
 import java.util.List;
 
@@ -10,7 +14,10 @@ public class HotelService {
     }
 
     @SuppressWarnings("deprecation")
-    public String validateAndAdd(Hotel hotel) {
+    public String validateAndAdd(Hotel hotel) throws ValidationException {
+        if (hotel.getRating() < 0){
+            throw new ValidationException("Rating must be positive");
+        }
         if (hotel.getHotelName().equals("")) {
             return "Please enter a Hotel name";
         }
@@ -24,14 +31,24 @@ public class HotelService {
             return "Rating is too low";
         }
 
+        try {
+            validateAndAdd(null);
+        } catch (NullPointerException e){
+            System.out.println("Hotel Name can not be NULL - class: HotelService; ln-37");
+        }
+
+
         hotelRepository.add(hotel);
         return "Hotel has been added";
     }
 
-    public String delete(Hotel hotel) {
+    public String delete(Hotel hotel) throws ValidationException {
         hotelRepository.remove(hotel);
         return "removed";
     }
+//    public String delete (Hotel hotel) throws ValidationException{
+//        hotelRepository.remove(hotel);
+//    }
 
     public List<Hotel> getHotels() {
         return hotelRepository.listHotels();

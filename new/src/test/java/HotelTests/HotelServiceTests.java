@@ -1,7 +1,10 @@
-import models.buildings.HasCapacity;
-import models.buildings.Hotel;
-import models.buildings.HotelRepository;
-import models.buildings.HotelService;
+package HotelTests;
+
+import model.ValidationException;
+import model.building.*;
+import model.enumaration.HasCapacity;
+import repository.HotelRepository;
+import service.HotelService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,9 +18,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.*;
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(MockitoJUnitRunner.Silent.class)
 public class HotelServiceTests {
 
     @Mock
@@ -30,18 +33,29 @@ public class HotelServiceTests {
     }
 
     @Test
-    public void should_Add_After_Validation(){
+    public void shouldNot_Do_Anything_If_Added(){
         //GIVEN
         Hotel hotel = new Hotel("Ibis",250,4.7,"Street",26,"Cluj", HasCapacity.HAS_CAPACITY);
-        doReturn("added").when(hotelRepository).add(any(Hotel.class));
+        doNothing().when(hotelRepository).add(hotel);
+        verify(hotelRepository, times(0)).add(hotel);
+
+    }
+
+    @Test
+    public void should_Add_After_Validation() throws ValidationException {
+        //GIVEN
+        Hotel hotel = new Hotel("Ibis",250,4.7,"Street",26,"Cluj", HasCapacity.HAS_CAPACITY);
+//        doReturn("added").when(hotelRepository).add(any(Hotel.class));
+        doNothing().when(hotelRepository).add(hotel);
         //WHEN
         String response = hotelService.validateAndAdd(hotel);
         //THEN
         assertEquals("Hotel has been added",response);
+
     }
 
     @Test(expected = NullPointerException.class)
-    public void shouldNot_Add_If_Name_IsNull(){
+    public void shouldNot_Add_If_Name_IsNull() throws ValidationException {
         //WHEN
         String response = hotelService.validateAndAdd(null);
         //THEN
@@ -49,7 +63,7 @@ public class HotelServiceTests {
     }
 
     @Test
-    public void shouldNot_Add_If_Name_IsEmpty(){
+    public void shouldNot_Add_If_Name_IsEmpty() throws ValidationException {
         //GIVEN
         Hotel hotel = new Hotel("",250,4.7,"Street",26,"Cluj", HasCapacity.HAS_CAPACITY);
         //WHEN
@@ -59,7 +73,7 @@ public class HotelServiceTests {
     }
 
     @Test
-    public void shouldNot_Add_If_Capacity_TooLow(){
+    public void shouldNot_Add_If_Capacity_TooLow() throws ValidationException {
         //GIVEN
         Hotel hotel = new Hotel("Ibis",20,4.7,"Street",26,"Cluj", HasCapacity.HAS_CAPACITY);
         //WHEN
@@ -70,7 +84,7 @@ public class HotelServiceTests {
     }
 
     @Test
-    public void shouldNot_Add_If_Rating_TooLow(){
+    public void shouldNot_Add_If_Rating_TooLow() throws ValidationException {
         //GIVEN
         Hotel hotel = new Hotel("Ibis",250,1.7,"Street",26,"Cluj", HasCapacity.HAS_CAPACITY);
         //WHEN
@@ -80,10 +94,11 @@ public class HotelServiceTests {
     }
 
     @Test
-    public void should_removeHotel(){
+    public void should_removeHotel() throws ValidationException {
         //GIVEN
         Hotel hotel = new Hotel("Ibis",300,4.6,"Street",25,"Cluj", HasCapacity.NO_CAPACITY);
         doReturn("removed").when(hotelRepository).remove(any(Hotel.class));
+//        doNothing().when(hotelRepository).remove(hotel);
         //WHEN
         String response = hotelService.delete(hotel);
         //THEN

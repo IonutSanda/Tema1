@@ -1,6 +1,9 @@
-import models.persons.Gender;
-import models.persons.Person;
-import models.persons.PersonRepository;
+package PersonTests;
+
+import model.ValidationException;
+import model.enumaration.Gender;
+import model.person.Person;
+import repository.PersonRepository;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -39,8 +42,8 @@ public class PersonRepositoryTests {
         assertEquals("Employee has been added",response);
     }
 
-    @Test
-    public void should_Delete_Client(){
+    @Test(expected = ValidationException.class)
+    public void should_Delete_Client() throws ValidationException {
         //GIVEN
         Person client = new Person ("Ionut Sanda",27,"sanda@me.com",Gender.MALE);
         //WHEN
@@ -48,8 +51,8 @@ public class PersonRepositoryTests {
         //THEN
         assertEquals("Client has been removed",response);
     }
-    @Test
-    public void should_Delete_Employee(){
+    @Test(expected = ValidationException.class)
+    public void should_Delete_Employee() throws ValidationException {
         //GIVEN
         Person employee = new Person("Ionut Sanda","ionut@me.com",27,"123ABC",Gender.MALE);
         //WHEN

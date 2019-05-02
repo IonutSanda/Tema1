@@ -1,7 +1,10 @@
-import models.persons.Gender;
-import models.persons.Person;
-import models.persons.PersonRepository;
-import models.persons.PersonService;
+package PersonTests;
+
+import model.ValidationException;
+import model.enumaration.Gender;
+import model.person.Person;
+import repository.PersonRepository;
+import service.PersonService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,7 +21,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(MockitoJUnitRunner.Silent.class)
 public class PersonServiceTests {
 
     @Mock
@@ -31,7 +34,7 @@ public class PersonServiceTests {
     }
 
     @Test
-    public void should_Add_Client_If_ValidData() {
+    public void should_Add_Client_If_ValidData() throws ValidationException {
         //GIVEN
         Person client = new Person("Ionut Sanda", 25, "sanda@me.com", Gender.MALE);
         doReturn("Client has been added").when(personRepository).addClient(any(Person.class));
@@ -52,9 +55,10 @@ public class PersonServiceTests {
     }
 
     @Test
-    public void shouldNot_Add_Client_If_Age_TooLow(){
+    public void shouldNot_Add_Client_If_Age_TooLow() throws ValidationException {
         //GIVEN
         Person client = new Person("Ionut Sanda", 6, "sanda@me.com", Gender.MALE);
+        doReturn("Client is underaged").when(personRepository).addClient(any(Person.class));
         //WHEN
         String response = personService.validateClientAndAdd(client);
         //THEN
@@ -64,6 +68,7 @@ public class PersonServiceTests {
     public void shouldNot_Add_Employee_If_Age_TooLow(){
         //GIVEN
         Person employee = new Person("Ionut Sanda", 6, "sanda@me.com", Gender.MALE);
+        doReturn("Employee is underaged").when(personRepository).addEmployee(any(Person.class));
         //WHEN
         String response = personService.validateEmployeeAndAdd(employee);
         //THEN
@@ -71,7 +76,7 @@ public class PersonServiceTests {
     }
 
     @Test(expected = NullPointerException.class)
-    public void shouldNot_Add_Client_If_NameIsNull(){
+    public void shouldNot_Add_Client_If_NameIsNull() throws ValidationException {
         //GIVEN
         //WHEN
         String response = personService.validateClientAndAdd(null);
@@ -79,9 +84,10 @@ public class PersonServiceTests {
         assertEquals("Please enter the Clients name",response);
     }
     @Test
-    public void shouldNot_Add_Client_If_Name_IsEmpty(){
+    public void shouldNot_Add_Client_If_Name_IsEmpty() throws ValidationException {
         //GIVEN
         Person client = new Person("", 25, "sanda@me.com", Gender.MALE);
+        doReturn("Please enter the Clients name").when(personRepository).addClient(any(Person.class));
         //WHEN
         String response = personService.validateClientAndAdd(client);
         //THEN
@@ -98,18 +104,20 @@ public class PersonServiceTests {
     }
 
     @Test
-    public void should_Remove_Client(){
+    public void should_Remove_Client() throws ValidationException {
         //GIVEN
         Person client = new Person("Ionut Sanda", 25, "sanda@me.com", Gender.MALE);
+        doReturn("removed Client").when(personRepository).removeClient(any(Person.class));
         //WHEN
         String response = personService.deleteClient(client);
         //THEN
         assertEquals("removed Client", response);
     }
     @Test
-    public void should_Remove_Employee(){
+    public void should_Remove_Employee() throws ValidationException {
         //GIVEN
         Person employee = new Person("Ionut Sanda", 25, "sanda@me.com", Gender.MALE);
+        doReturn("removed Employee").when(personRepository).removeEmployee(any(Person.class));
         //WHEN
         String response = personService.deleteEmployee(employee);
         //THEN

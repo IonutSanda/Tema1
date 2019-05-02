@@ -1,4 +1,7 @@
-package models.buildings;
+package model.building;
+
+import model.Address;
+import model.enumaration.HasCapacity;
 
 public class Hotel extends Address {
 
@@ -19,10 +22,12 @@ public class Hotel extends Address {
         return hasCapacity.getMessage();
     }
 
-    @Deprecated
+
     public String getName() {
         return name;
     }
+
+    @Deprecated
     public String getHotelName() {
         return "Hotel Name: " + name;
     }
@@ -47,7 +52,8 @@ public class Hotel extends Address {
         this.rating = rating;
     }
 
+    @Override
     public String toString(){
-        return getHotelName() + ", Capacity: " + capacity + ", Rating: " + rating;
+        return "Hotel name: " + name + ", Capacity: " + capacity + ", Rating: " + rating;
     }
 }
