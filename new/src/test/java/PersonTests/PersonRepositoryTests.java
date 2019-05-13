@@ -1,18 +1,16 @@
-package PersonTests;
+package persontests;
 
 import model.ValidationException;
-import model.enumaration.Gender;
+import model.enumeration.Gender;
 import model.person.Person;
-import repository.PersonRepository;
 import org.junit.Before;
 import org.junit.Test;
+import repository.PersonRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class PersonRepositoryTests {
 

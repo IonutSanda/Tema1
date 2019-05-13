@@ -1,11 +1,11 @@
-package HotelTests;
+package hoteltests;
 
 import model.ValidationException;
-import model.enumaration.HasCapacity;
+import model.enumeration.HasCapacity;
 import model.building.Hotel;
-import repository.HotelRepository;
 import org.junit.Before;
 import org.junit.Test;
+import repository.HotelRepository;
 
 import java.util.ArrayList;
 import java.util.List;

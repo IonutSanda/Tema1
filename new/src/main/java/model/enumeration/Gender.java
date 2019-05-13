@@ -1,4 +1,4 @@
-package model.enumaration;
+package model.enumeration;
 
 public enum Gender {
     MALE,

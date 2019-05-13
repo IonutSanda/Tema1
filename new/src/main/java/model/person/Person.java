@@ -1,8 +1,8 @@
 package model.person;
 
-import model.enumaration.Gender;
+import model.enumeration.Gender;
 
-public class Person{
+public class Person {
 
     private String clientName;
     private String employeeName;
@@ -28,7 +28,7 @@ public class Person{
         this.gender = gender;
     }
 
-    public Gender getGender(){
+    public Gender getGender() {
         return gender;
     }
 
@@ -90,11 +90,11 @@ public class Person{
     }
 
     @SuppressWarnings("deprecation")
-    public String getClientDetails(){
+    public String getClientDetails() {
         return "Name: " + getClientName() + ", Age: " + clientAge + ", E-mail: " + clientEmail;
     }
 
-    public String getEmployeeDetails(){
+    public String getEmployeeDetails() {
         return "Name: " + employeeName + ", E-mail: " + employeeEmail + ", Age: " + employeeAge + ", Employee Nr: " + employeeNumber;
     }
 }

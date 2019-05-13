@@ -28,7 +28,7 @@ public class PersonRepository implements Client, Employee {
 
     @Override
     public String removeEmployee(Person employee) throws ValidationException {
-        if (employees.size() == 0){
+        if (employees.size() == 0) {
             throw new ValidationException("There are no employees to remove");
         }
         employees.remove(employee);
@@ -37,7 +37,7 @@ public class PersonRepository implements Client, Employee {
 
     @Override
     public String removeClient(Person client) throws ValidationException {
-        if (clients.size() == 0){
+        if (clients.size() == 0) {
             throw new ValidationException("There are no clients to remove");
         }
         clients.remove(client);

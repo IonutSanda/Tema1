@@ -14,6 +14,9 @@ public class HotelRepository implements HotelInterface {
 
     private List<Hotel> hotels = new ArrayList<>();
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void add(Hotel hotel) {
         hotels.add(hotel);
@@ -21,10 +24,13 @@ public class HotelRepository implements HotelInterface {
 //        return "added";
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String remove(Hotel hotel) throws ValidationException {
-        if (hotels.size() == 0){
-            logger.error("Name from the hotel is missing - HotelRepository Class - ln. 27");
+        if (hotels.size() == 0) {
+            logger.error("Name from the hotel is missing - HotelRepository Class - ln. 233");
             throw new ValidationException("There are no hotels to delete");
         }
         hotels.remove(hotel);
@@ -32,6 +38,9 @@ public class HotelRepository implements HotelInterface {
         return "deleted";
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<Hotel> listHotels() {
         return hotels;

@@ -1,4 +1,4 @@
-package model.enumaration;
+package model.enumeration;
 
 public enum HasCapacity {
 
@@ -7,11 +7,11 @@ public enum HasCapacity {
 
     private final String message;
 
-    HasCapacity (String message){
+    HasCapacity(String message) {
         this.message = message;
     }
 
-    public String getMessage(){
+    public String getMessage() {
         return message;
     }
 }

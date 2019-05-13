@@ -1,27 +1,28 @@
 package model;
 
-import model.building.*;
-import model.enumaration.Gender;
-import model.enumaration.HasCapacity;
+import model.building.Hotel;
+import model.enumeration.Gender;
+import model.enumeration.HasCapacity;
 import model.person.Person;
+import org.apache.log4j.Logger;
 import repository.HotelRepository;
 import repository.PersonRepository;
 import service.HotelService;
 import service.PersonService;
-import org.apache.log4j.Logger;
+
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class MainClass {
 
     /*
-    - Address class has been excluded from the building package to be able to use protected access modifier.
-    - toString(), and deprecated is located in Hotel Class.
-    - suppressWarning is used in HotelService.
-    - default access modifier not used. Need help where to use it.
-    - DoNothing and Verify has been added in HotelServiceTests - nu stiu ce am facut pe acolo - but it works
-    - Custom exceptions used - NPE is in PersonServiceTests.java.
-    - DEBUG and ERROR Logger have been added in Hotel Repository
-    - ERROR logs only the error logger not the debug and info.
-    - I had to use @RunWith(MockitoJUnitRunner.Silent.class) instead of the normal @RunWith (MockitoJUnitRunner.class) - i don't know why
+        - @Ignore annotation used in HotelServiceTests; ln. 44
+        - assertThat used in HotelServiceTests; ln. 74
+        - assertNotNull used in HotelServiceTests; ln. 81
+        - @inheritDoc used in HotelRepository class.
+        - Didn't upgrade to JUnit 5 due to some problems with (expected)
+        - Didn't add Serializble due to not understanding it properly :(
     */
 
     private static Logger logger = Logger.getLogger(MainClass.class);
@@ -57,7 +58,7 @@ public class MainClass {
         Hotel[] hotelArray = hotelService.getHotels().toArray(new Hotel[hotelService.getHotels().size()]);
         //for to display the hotels in the above created array
 
-        for (Hotel hotel : hotelArray){
+        for (Hotel hotel : hotelArray) {
             logger.info("This is a hotel array: " + hotel.getName());
         }
 
@@ -85,7 +86,46 @@ public class MainClass {
             logger.info(firstClient.getClientDetails());
             logger.info(firstEmployee.getEmployeeDetails());
             logger.info(firstHotel.toString());
-
         }
+
+        //Write using Try with Resources, the hotels into the HotelsOut.txt file
+        try (FileWriter in = new FileWriter("HotelsIn.txt")) {
+            for (Hotel hotel : hotelService.getHotels()) {
+                in.write(String.valueOf(hotel) + "\r\n");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        //Write the hotels into the HotelsIn.txt file
+        FileReader in;
+        FileWriter out = null;
+
+        try {
+            in = new FileReader("HotelsIn.txt");
+            out = new FileWriter("HotelsOut.txt");
+
+            int value;
+            while ((value = in.read()) != -1) {
+                out.write(value);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (out != null) {
+                try {
+                    out.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+
+
+
     }
 }
+

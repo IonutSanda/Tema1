@@ -1,7 +1,7 @@
 package model.building;
 
 import model.Address;
-import model.enumaration.HasCapacity;
+import model.enumeration.HasCapacity;
 
 public class Hotel extends Address {
 
@@ -18,10 +18,9 @@ public class Hotel extends Address {
         this.hasCapacity = hasCapacity;
     }
 
-    public String isAvailable(){
+    public String isAvailable() {
         return hasCapacity.getMessage();
     }
-
 
     public String getName() {
         return name;
@@ -53,7 +52,7 @@ public class Hotel extends Address {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return "Hotel name: " + name + ", Capacity: " + capacity + ", Rating: " + rating;
     }
 }

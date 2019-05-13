@@ -1,22 +1,20 @@
-package PersonTests;
+package persontests;
 
 import model.ValidationException;
-import model.enumaration.Gender;
+import model.enumeration.Gender;
 import model.person.Person;
-import repository.PersonRepository;
-import service.PersonService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import repository.PersonRepository;
+import service.PersonService;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 

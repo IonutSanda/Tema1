@@ -10,14 +10,14 @@ public class PersonService {
 
     private PersonRepository personRepository;
 
-    public PersonService(PersonRepository personRepository){
+    public PersonService(PersonRepository personRepository) {
         this.personRepository = personRepository;
     }
 
     @SuppressWarnings("deprecation")
     public String validateClientAndAdd(Person client) throws ValidationException {
 
-        if (client.getClientAge() < 0){
+        if (client.getClientAge() < 0) {
             throw new ValidationException("Age can not be negative");
         }
         if (client.getClientAge() < 18) {
@@ -26,7 +26,7 @@ public class PersonService {
         if (client.getClientName().equals("")) {
             return "Please enter the Clients name";
         }
-        if (client.getClientName().length() < 1){
+        if (client.getClientName().length() < 1) {
             return "Please enter a name";
         }
 
@@ -38,6 +38,7 @@ public class PersonService {
         personRepository.removeClient(client);
         return "removed Client";
     }
+
 
     public String validateEmployeeAndAdd(Person employee) {
         if (employee.getEmployeeAge() < 21) {
@@ -55,6 +56,7 @@ public class PersonService {
         personRepository.removeEmployee(employee);
         return "removed Employee";
     }
+
 
     public List<Person> getClients() {
         return personRepository.listClients();
