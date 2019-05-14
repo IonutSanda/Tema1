@@ -3,7 +3,10 @@ package model.building;
 import model.Address;
 import model.enumeration.HasCapacity;
 
-public class Hotel extends Address {
+import java.io.Serializable;
+
+
+public class Hotel extends Address implements Serializable {
 
     private String name;
     private int capacity;

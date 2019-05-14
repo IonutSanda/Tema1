@@ -10,9 +10,7 @@ import repository.PersonRepository;
 import service.HotelService;
 import service.PersonService;
 
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 
 public class MainClass {
 
@@ -22,7 +20,6 @@ public class MainClass {
         - assertNotNull used in HotelServiceTests; ln. 81
         - @inheritDoc used in HotelRepository class.
         - Didn't upgrade to JUnit 5 due to some problems with (expected)
-        - Didn't add Serializble due to not understanding it properly :(
     */
 
     private static Logger logger = Logger.getLogger(MainClass.class);
@@ -123,7 +120,28 @@ public class MainClass {
             }
         }
 
+        //Serialization of hotels
+        String fileName = "Hotels.hot";
+        try {
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(fileName));
+            for (Hotel hotel : hotelService.getHotels()) {
+                objectOutputStream.writeObject(hotel);
+            }
+            objectOutputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        logger.info("Serialized");
 
+        //Deserialization of hotels
+        try {
+            ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(fileName));
+            objectInputStream.readObject();
+            logger.info("Deserialized");
+            objectInputStream.close();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
 
 
     }
