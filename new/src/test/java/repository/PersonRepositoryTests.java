@@ -1,4 +1,4 @@
-package persontests;
+package repository;
 
 import model.ValidationException;
 import model.enumeration.Gender;

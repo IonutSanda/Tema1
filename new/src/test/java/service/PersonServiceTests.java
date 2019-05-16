@@ -1,4 +1,4 @@
-package persontests;
+package service;
 
 import model.ValidationException;
 import model.enumeration.Gender;
@@ -9,7 +9,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import repository.PersonRepository;
-import service.PersonService;
 
 import java.util.ArrayList;
 import java.util.List;
