@@ -34,13 +34,13 @@ public class PersonService {
         return "Client has been added";
     }
 
-    public String deleteClient(Person client) throws ValidationException {
+    String deleteClient(Person client) throws ValidationException {
         personRepository.removeClient(client);
         return "removed Client";
     }
 
 
-    public String validateEmployeeAndAdd(Person employee) {
+    String validateEmployeeAndAdd(Person employee) {
         if (employee.getEmployeeAge() < 21) {
             return "Employee is underaged";
         }
@@ -52,7 +52,7 @@ public class PersonService {
         return "Employee has been added";
     }
 
-    public String deleteEmployee(Person employee) throws ValidationException {
+    String deleteEmployee(Person employee) throws ValidationException {
         personRepository.removeEmployee(employee);
         return "removed Employee";
     }

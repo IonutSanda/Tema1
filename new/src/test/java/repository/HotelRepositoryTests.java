@@ -3,6 +3,7 @@ package repository;
 import model.ValidationException;
 import model.building.Hotel;
 import model.enumeration.HasCapacity;
+import model.person.RandomNumberGenerator;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -36,7 +37,7 @@ public class HotelRepositoryTests {
     @Test
     public void list_ShouldNot_BeEmpty_If_AddedHotel() {
         //GIVEN
-        Hotel hotel = new Hotel("Ibis", 250, 4.5, "Streetname", 25, "Cluj", HasCapacity.NO_CAPACITY);
+        Hotel hotel = new Hotel("Ibis", 250, 4.5, "Streetname", 25, "Cluj", HasCapacity.NO_CAPACITY,RandomNumberGenerator.hotelNumberGenerator());
         List<Hotel> hotels = new ArrayList<>();
         //WHEN
         hotels.add(hotel);
@@ -47,7 +48,7 @@ public class HotelRepositoryTests {
     @Test
     public void list_Should_BeEmpty_If_RemovedHotel() {
         //GIVEN
-        Hotel hotel = new Hotel("Ibis", 250, 4.5, "Streetname", 25, "Cluj", HasCapacity.NO_CAPACITY);
+        Hotel hotel = new Hotel("Ibis", 250, 4.5, "Streetname", 25, "Cluj", HasCapacity.NO_CAPACITY,RandomNumberGenerator.hotelNumberGenerator());
         List<Hotel> hotels = new ArrayList<>();
         hotels.add(hotel);
         //WHEN

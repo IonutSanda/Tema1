@@ -2,11 +2,13 @@ package service;
 
 import model.ValidationException;
 import model.building.Hotel;
+import org.apache.log4j.Logger;
 import repository.HotelRepository;
 
 import java.util.List;
 
 public class HotelService {
+    private static Logger logger = Logger.getLogger(HotelRepository.class);
 
     private HotelRepository hotelRepository;
 
@@ -35,17 +37,12 @@ public class HotelService {
         try {
             validateAndAdd(null);
         } catch (NullPointerException e) {
-            System.out.println("Hotel Name can not be NULL - class: HotelService; ln-37");
+            logger.debug("Hotel Name can not be NULL - class: HotelService; ln-37");
         }
 
 
         hotelRepository.add(hotel);
         return "Hotel has been added";
-    }
-
-    public String delete(Hotel hotel) throws ValidationException {
-        hotelRepository.remove(hotel);
-        return "removed";
     }
 
     public List<Hotel> getHotels() {

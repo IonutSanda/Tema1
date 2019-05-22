@@ -4,38 +4,43 @@ import model.building.Hotel;
 import model.enumeration.Gender;
 import model.enumeration.HasCapacity;
 import model.person.Person;
+import model.person.RandomNumberGenerator;
 import org.apache.log4j.Logger;
 import repository.HotelRepository;
 import repository.PersonRepository;
 import service.HotelService;
 import service.PersonService;
 
-import java.io.*;
+import java.util.*;
+
+import static model.IOHandling.*;
 
 public class MainClass {
 
-    /*
-        - @Ignore annotation used in HotelServiceTests; ln. 44
-        - assertThat used in HotelServiceTests; ln. 74
-        - assertNotNull used in HotelServiceTests; ln. 81
-        - @inheritDoc used in HotelRepository class.
-        - Didn't upgrade to JUnit 5 due to some problems with (expected)
-    */
+/*
+    - tried adding org.apache.logging.log4j/log4j-core - not successful due to 'getLogger' error - can not resolve it
+    - IO Handling was extracted to functions and created a different class (IOHandling)
+    - didn't use @ToString from Lombok, because the build ToString is custom
+    - added Lombok
+    - code cleaning (getting rid of Setters, Getters, declared same type variables on one line, etc)
+    - Set and Map added in main: ln 41
+    - created 2 different kind of comparators and used it for sorting
+    - Wildcard used in PersonService class - it doesn't make any sense to use it in my project - but I had to.
+*/
 
     private static Logger logger = Logger.getLogger(MainClass.class);
 
     public static void main(String[] args) throws ValidationException {
 
-        Hotel firstHotel = new Hotel("Ibis", 150, 1.5, "Ibis Street", 25, "Cluj", HasCapacity.NO_CAPACITY);
-        Hotel secondHotel = new Hotel("Hilton", 250, 5, "Hilton Street", 88, "Cluj", HasCapacity.HAS_CAPACITY);
-        Hotel thirdHotel = new Hotel("Ramada and CO", 300, 4.7, "Ramada Street", 12, "Cluj", HasCapacity.HAS_CAPACITY);
+
+        Hotel firstHotel = new Hotel("Ibis", 150, 1.5, "Ibis Street", 25, "Cluj", HasCapacity.NO_CAPACITY, RandomNumberGenerator.hotelNumberGenerator());
+        Hotel secondHotel = new Hotel("Hilton", 250, 5, "Hilton Street", 88, "Cluj", HasCapacity.HAS_CAPACITY, RandomNumberGenerator.hotelNumberGenerator());
+        Hotel thirdHotel = new Hotel("Ramada and CO", 300, 4.7, "Ramada Street", 12, "Cluj", HasCapacity.HAS_CAPACITY, RandomNumberGenerator.hotelNumberGenerator());
 
         Person firstClient = new Person("Ionut Sanda", 28, "sanda@me.com", Gender.MALE);
-        Person firstEmployee = new Person("Sanda Ionut", "ionut@me.com", 27, "123ABC", Gender.MALE);
-
         Person secondClient = new Person("Iulia Ferencz", 27, "iulia@me.com", Gender.FEMALE);
-        Person secondEmployee = new Person("Ferencz Iulia", "ferencz@me.com", 26, "4321CBA", Gender.FEMALE);
 
+        SetAndMap();
 
         //mocking reasons for creating a new repo
         HotelRepository hotelRepository = new HotelRepository();
@@ -45,16 +50,17 @@ public class MainClass {
 
         personService.validateClientAndAdd(firstClient);
         personService.validateClientAndAdd(secondClient);
-        personService.validateEmployeeAndAdd(firstEmployee);
-        personService.validateEmployeeAndAdd(secondEmployee);
         hotelService.validateAndAdd(firstHotel);
         hotelService.validateAndAdd(secondHotel);
         hotelService.validateAndAdd(thirdHotel);
 
+        //New method in PersonService class called getClientsList where I used a wildcard
+        List<?> clientsNew = Arrays.asList(firstClient, secondClient);
+        personRepository.getClientsList(clientsNew);
+
         //this doesn't make sens - it's for homework purpose only
         Hotel[] hotelArray = hotelService.getHotels().toArray(new Hotel[hotelService.getHotels().size()]);
         //for to display the hotels in the above created array
-
         for (Hotel hotel : hotelArray) {
             logger.info("This is a hotel array: " + hotel.getName());
         }
@@ -74,76 +80,62 @@ public class MainClass {
             logger.info("Gender: " + client.getGender());
         }
 
-        for (Person employee : personService.getEmployees()) {
-            logger.info("Name: " + employee.getEmployeeName());
-            logger.info("Age: " + employee.getEmployeeAge());
-            logger.info("Gender: " + employee.getGender());
-            logger.info("Employee Number: " + employee.getEmployeeNumber());
+        for (Person forEmployee : personService.getEmployees()) {
+            logger.info("Name: " + forEmployee.getEmployeeName());
+            logger.info("Age: " + forEmployee.getEmployeeAge());
+            logger.info("Gender: " + forEmployee.getGender());
+            logger.info("Employee Number: " + forEmployee.getEmployeeNumber());
 
             logger.info(firstClient.getClientDetails());
-            logger.info(firstEmployee.getEmployeeDetails());
+            logger.info(forEmployee.getEmployeeDetails());
             logger.info(firstHotel.toString());
         }
 
-        //Write using Try with Resources, the hotels into the HotelsOut.txt file
-        try (FileWriter in = new FileWriter("HotelsIn.txt")) {
-            for (Hotel hotel : hotelService.getHotels()) {
-                in.write(String.valueOf(hotel) + "\r\n");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+        tryWithResources(hotelService);
+        tryWithoutResources();
+
+        String fileName = hotelSerialization(hotelService);
+        hotelDeserialization(fileName);
+
+    }
+
+    //Not sure if the body is correctly structured
+    private static void SetAndMap() {
+
+        //- RandomNumberGenerator is set to 2 digits for duplicate purpose
+        Comparator<Person> sortByName =
+                Comparator.comparing(Person::getEmployeeNumber);
+
+        /* FOR EXERCISE PURPOSE ONLY !!! */
+//        Comparator<Person> sortByNameNew =
+//                (employee1, employee2) -> employee1.getEmployeeNumber().compareTo(employee2.getEmployeeNumber());
+
+        Set<Person> personSet = new HashSet<>();
+        Map<UUID, Hotel> hotelMap = new HashMap<>();
+        for (int i = 1; i <= 20; i++) {
+            Person person = new Person("Sanda Ionut", "Ionut@me.com", 27, RandomNumberGenerator.employeeNumberGenerator(), Gender.MALE);
+            Hotel hotel = new Hotel("Ibis", 150, 4.5, "Ibis Street", 25, "Cluj", HasCapacity.NO_CAPACITY, RandomNumberGenerator.hotelNumberGenerator());
+            logger.info("Person " + i + ": " + person.getEmployeeDetails());
+            personSet.add(person);
+            hotelMap.put(RandomNumberGenerator.hotelNumberGenerator(), hotel);
+        }
+        //- the System.out.println is there just to verify the set size (to make sure it didn't add 20 - high probability of duplicate values)
+        System.out.println("Size of the Set: " + personSet.size());
+        System.out.println("Size of the Map: " + hotelMap.size());
+
+        //Create a list from the set to be able to sort it
+        List<Person> listFromSet = new ArrayList<>(personSet);
+        listFromSet.sort(sortByName);
+
+        for (Person personList : listFromSet) {
+            logger.info("Ordered list: " + personList.getEmployeeNumber());
         }
 
-
-        //Write the hotels into the HotelsIn.txt file
-        FileReader in;
-        FileWriter out = null;
-
-        try {
-            in = new FileReader("HotelsIn.txt");
-            out = new FileWriter("HotelsOut.txt");
-
-            int value;
-            while ((value = in.read()) != -1) {
-                out.write(value);
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (out != null) {
-                try {
-                    out.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+        //Map
+        for (Map.Entry entry : hotelMap.entrySet()) {
+            Hotel hotelMapShow = (Hotel) entry.getValue();
+            logger.info(hotelMapShow.getId());
         }
-
-        //Serialization of hotels
-        String fileName = "Hotels.hot";
-        try {
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(fileName));
-            for (Hotel hotel : hotelService.getHotels()) {
-                objectOutputStream.writeObject(hotel);
-            }
-            objectOutputStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        logger.info("Serialized");
-
-        //Deserialization of hotels
-        try {
-            ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(fileName));
-            objectInputStream.readObject();
-            logger.info("Deserialized");
-            objectInputStream.close();
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-
-
     }
 }
 

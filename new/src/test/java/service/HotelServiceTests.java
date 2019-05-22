@@ -3,6 +3,7 @@ package service;
 import model.ValidationException;
 import model.building.Hotel;
 import model.enumeration.HasCapacity;
+import model.person.RandomNumberGenerator;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeAll;
@@ -10,7 +11,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import repository.HotelRepository;
-import service.HotelService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +36,7 @@ public class HotelServiceTests {
     @Test
     public void shouldNot_Do_Anything_If_Added() {
         //GIVEN
-        Hotel hotel = new Hotel("Ibis", 250, 4.7, "Street", 26, "Cluj", HasCapacity.HAS_CAPACITY);
+        Hotel hotel = new Hotel("Ibis", 250, 4.7, "Street", 26, "Cluj", HasCapacity.HAS_CAPACITY,RandomNumberGenerator.hotelNumberGenerator());
         doNothing().when(hotelRepository).add(hotel);
         verify(hotelRepository, times(0)).add(hotel);
 
@@ -46,7 +46,7 @@ public class HotelServiceTests {
     @Test
     public void should_Add_After_Validation() throws ValidationException {
         //GIVEN
-        Hotel hotel = new Hotel("Ibis", 250, 4.7, "Street", 26, "Cluj", HasCapacity.HAS_CAPACITY);
+        Hotel hotel = new Hotel("Ibis", 250, 4.7, "Street", 26, "Cluj", HasCapacity.HAS_CAPACITY,RandomNumberGenerator.hotelNumberGenerator());
 //        doReturn("added").when(hotelRepository).add(any(Hotel.class));
         doNothing().when(hotelRepository).add(hotel);
         //WHEN
@@ -69,7 +69,7 @@ public class HotelServiceTests {
     @Test
     public void shouldNot_Add_If_Name_IsEmpty() {
         //GIVEN
-        Hotel hotel = new Hotel("", 250, 4.7, "Street", 26, "Cluj", HasCapacity.HAS_CAPACITY);
+        Hotel hotel = new Hotel("", 250, 4.7, "Street", 26, "Cluj", HasCapacity.HAS_CAPACITY,RandomNumberGenerator.hotelNumberGenerator());
         //WHEN
         //THEN
         assertThat("Please enter a Hotel name", is("Please enter a Hotel name"));
@@ -78,7 +78,7 @@ public class HotelServiceTests {
     @Test
     public void shouldNot_Add_If_Capacity_TooLow() {
         //GIVEN
-        Hotel hotel = new Hotel("Ibis", 20, 4.7, "Street", 26, "Cluj", HasCapacity.HAS_CAPACITY);
+        Hotel hotel = new Hotel("Ibis", 20, 4.7, "Street", 26, "Cluj", HasCapacity.HAS_CAPACITY,RandomNumberGenerator.hotelNumberGenerator());
         //WHEN
         //THEN
         assertNotNull(hotel);
@@ -87,7 +87,7 @@ public class HotelServiceTests {
     @Test
     public void shouldNot_Add_If_Rating_TooLow() throws ValidationException {
         //GIVEN
-        Hotel hotel = new Hotel("Ibis", 250, 1.7, "Street", 26, "Cluj", HasCapacity.HAS_CAPACITY);
+        Hotel hotel = new Hotel("Ibis", 250, 1.7, "Street", 26, "Cluj", HasCapacity.HAS_CAPACITY,RandomNumberGenerator.hotelNumberGenerator());
         //THEN
         assertNotNull(hotel);
     }
@@ -101,7 +101,7 @@ public class HotelServiceTests {
     @Test
     public void list_ShouldNot_BeEmpty_If_ValidData() {
         //GIVEN
-        Hotel hotel = new Hotel("Ibis", 300, 4.6, "Street", 25, "Cluj", HasCapacity.NO_CAPACITY);
+        Hotel hotel = new Hotel("Ibis", 300, 4.6, "Street", 25, "Cluj", HasCapacity.NO_CAPACITY,RandomNumberGenerator.hotelNumberGenerator());
         List<Hotel> hotels = new ArrayList<>();
         //WHEN
         hotels.add(hotel);
@@ -112,7 +112,7 @@ public class HotelServiceTests {
     @Test
     public void list_Should_BeEmpty_If_HotelRemoved() {
         //GIVEN
-        Hotel hotel = new Hotel("Ibis", 30, 4.6, "Street", 25, "Cluj", HasCapacity.NO_CAPACITY);
+        Hotel hotel = new Hotel("Ibis", 30, 4.6, "Street", 25, "Cluj", HasCapacity.NO_CAPACITY,RandomNumberGenerator.hotelNumberGenerator());
         List<Hotel> hotels = new ArrayList<>();
         hotels.add(hotel);
         //WHEN

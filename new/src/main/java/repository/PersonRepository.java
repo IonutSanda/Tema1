@@ -13,7 +13,6 @@ public class PersonRepository implements Client, Employee {
     private List<Person> clients = new ArrayList<>();
     private List<Person> employees = new ArrayList<>();
 
-
     @Override
     public String addEmployee(Person employee) {
         employees.add(employee);
@@ -53,4 +52,9 @@ public class PersonRepository implements Client, Employee {
     public List<Person> listClients() {
         return clients;
     }
+
+    public void getClientsList(List<?> clients) {
+        System.out.println(clients);
+    }
+
 }
