@@ -2,13 +2,15 @@ package service;
 
 import model.ValidationException;
 import model.building.Hotel;
-import org.apache.log4j.Logger;
+import model.enumeration.ErrorCodes;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import repository.HotelRepository;
 
 import java.util.List;
 
 public class HotelService {
-    private static Logger logger = Logger.getLogger(HotelRepository.class);
+    private static Logger logger = LogManager.getLogger(HotelRepository.class);
 
     private HotelRepository hotelRepository;
 
@@ -19,7 +21,7 @@ public class HotelService {
     @SuppressWarnings("deprecation")
     public String validateAndAdd(Hotel hotel) throws ValidationException {
         if (hotel.getRating() < 0) {
-            throw new ValidationException("Rating must be positive");
+            throw new ValidationException("Rating must be positive", ErrorCodes.RATING_NEGATIVE);
         }
         if (hotel.getHotelName().equals("")) {
             return "Please enter a Hotel name";

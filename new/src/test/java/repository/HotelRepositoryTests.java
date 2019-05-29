@@ -2,42 +2,32 @@ package repository;
 
 import model.ValidationException;
 import model.building.Hotel;
+import model.enumeration.ErrorCodes;
 import model.enumeration.HasCapacity;
 import model.person.RandomNumberGenerator;
-import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class HotelRepositoryTests {
-
-    private HotelRepository hotelRepository;
-
-
-    @BeforeEach
-    public void setup() {
-        hotelRepository = new HotelRepository();
-    }
-
+class HotelRepositoryTests {
 
     @Test
-    public void should_Remove_Hotel_If_ValidData() {
+    void should_Remove_Hotel_If_ValidData() {
         //THEN
         Throwable exception = assertThrows(ValidationException.class, () -> {
-            throw new ValidationException("deleted");
+            throw new ValidationException("deleted", ErrorCodes.HOTEL_NOT_FOUND);
         });
         assertEquals("deleted", exception.getMessage());
 
     }
 
     @Test
-    public void list_ShouldNot_BeEmpty_If_AddedHotel() {
+    void list_ShouldNot_BeEmpty_If_AddedHotel() {
         //GIVEN
-        Hotel hotel = new Hotel("Ibis", 250, 4.5, "Streetname", 25, "Cluj", HasCapacity.NO_CAPACITY,RandomNumberGenerator.hotelNumberGenerator());
+        Hotel hotel = new Hotel("Ibis", 250, 4.5, "Streetname", 25, "Cluj", HasCapacity.NO_CAPACITY, RandomNumberGenerator.hotelNumberGenerator());
         List<Hotel> hotels = new ArrayList<>();
         //WHEN
         hotels.add(hotel);
@@ -46,9 +36,9 @@ public class HotelRepositoryTests {
     }
 
     @Test
-    public void list_Should_BeEmpty_If_RemovedHotel() {
+    void list_Should_BeEmpty_If_RemovedHotel() {
         //GIVEN
-        Hotel hotel = new Hotel("Ibis", 250, 4.5, "Streetname", 25, "Cluj", HasCapacity.NO_CAPACITY,RandomNumberGenerator.hotelNumberGenerator());
+        Hotel hotel = new Hotel("Ibis", 250, 4.5, "Streetname", 25, "Cluj", HasCapacity.NO_CAPACITY, RandomNumberGenerator.hotelNumberGenerator());
         List<Hotel> hotels = new ArrayList<>();
         hotels.add(hotel);
         //WHEN

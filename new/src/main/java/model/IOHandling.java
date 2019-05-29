@@ -1,16 +1,17 @@
 package model;
 
 import model.building.Hotel;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import service.HotelService;
 
 import java.io.*;
 
-class IOHandling {
+public class IOHandling {
 
-    private static Logger logger = Logger.getLogger(IOHandling.class);
+    private static Logger logger = LogManager.getLogger(IOHandling.class);
 
-    static void tryWithoutResources() {
+    public static void tryWithoutResources() {
         //Write the hotels into the HotelsIn.txt file
         FileReader in;
         FileWriter out = null;
@@ -37,7 +38,7 @@ class IOHandling {
         }
     }
 
-    static void tryWithResources(HotelService hotelService) {
+    public static void tryWithResources(HotelService hotelService) {
         //Write using Try with Resources, the hotels into the HotelsOut.txt file
         try (FileWriter in = new FileWriter("HotelsIn.txt")) {
             for (Hotel hotel : hotelService.getHotels()) {
@@ -48,7 +49,7 @@ class IOHandling {
         }
     }
 
-    static void hotelDeserialization(String fileName) {
+    public static void hotelDeserialization(String fileName) {
         //Deserialization of hotels
         try {
             ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(fileName));
@@ -60,7 +61,7 @@ class IOHandling {
         }
     }
 
-    static String hotelSerialization(HotelService hotelService) {
+    public static String hotelSerialization(HotelService hotelService) {
         //Serialization of hotels
         String fileName = "Hotels.hot";
         try {

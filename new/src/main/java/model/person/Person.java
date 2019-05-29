@@ -39,7 +39,7 @@ public class Person {
     }
 
     public String getEmployeeDetails() {
-        return "Name: " + employeeName + ", E-mail: " + employeeEmail + ", Age: " + employeeAge + ", Employee Nr: " + employeeNumber;
+        return "Name: " + employeeName + ", E-mail: " + employeeEmail + ", Age: " + employeeAge + ", Employee Nr: " + employeeNumber + ", Gender: " + gender;
     }
 
 }

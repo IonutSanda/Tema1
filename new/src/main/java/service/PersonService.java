@@ -1,6 +1,7 @@
 package service;
 
 import model.ValidationException;
+import model.enumeration.ErrorCodes;
 import model.person.Person;
 import repository.PersonRepository;
 
@@ -18,7 +19,7 @@ public class PersonService {
     public String validateClientAndAdd(Person client) throws ValidationException {
 
         if (client.getClientAge() < 0) {
-            throw new ValidationException("Age can not be negative");
+            throw new ValidationException("Age can not be negative", ErrorCodes.AGE_NEGATIVE);
         }
         if (client.getClientAge() < 18) {
             return "Client is underaged";

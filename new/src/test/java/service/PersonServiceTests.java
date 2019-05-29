@@ -1,10 +1,11 @@
 package service;
 
 import model.ValidationException;
+import model.enumeration.ErrorCodes;
 import model.enumeration.Gender;
 import model.person.Person;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
@@ -13,25 +14,26 @@ import repository.PersonRepository;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 
 
 @RunWith(MockitoJUnitRunner.Silent.class)
-public class PersonServiceTests {
+class PersonServiceTests {
 
     @Mock
     private PersonRepository personRepository;
     private PersonService personService;
 
-    @Before
-    public void setup(){
+    @BeforeEach
+    void setup(){
         personService = new PersonService(personRepository);
     }
 
     @Test
-    public void should_Add_Client_If_ValidData() throws ValidationException {
+    void should_Add_Client_If_ValidData() throws ValidationException {
         //GIVEN
         Person client = new Person("Ionut Sanda", 25, "sanda@me.com", Gender.MALE);
         doReturn("Client has been added").when(personRepository).addClient(any(Person.class));
@@ -41,7 +43,7 @@ public class PersonServiceTests {
         assertEquals("Client has been added", response);
     }
     @Test
-    public void should_Add_Employee_If_ValidData(){
+    void should_Add_Employee_If_ValidData(){
         //GIVEN
         Person employee = new Person("Sanda Ionut","ionut@me.com",25,"123ABC", Gender.MALE);
         doReturn("Employee has been added").when(personRepository).addEmployee(any(Person.class));
@@ -52,7 +54,7 @@ public class PersonServiceTests {
     }
 
     @Test
-    public void shouldNot_Add_Client_If_Age_TooLow() throws ValidationException {
+    void shouldNot_Add_Client_If_Age_TooLow() throws ValidationException {
         //GIVEN
         Person client = new Person("Ionut Sanda", 6, "sanda@me.com", Gender.MALE);
         doReturn("Client is underaged").when(personRepository).addClient(any(Person.class));
@@ -62,7 +64,7 @@ public class PersonServiceTests {
         assertEquals("Client is underaged", response);
     }
     @Test
-    public void shouldNot_Add_Employee_If_Age_TooLow(){
+    void shouldNot_Add_Employee_If_Age_TooLow(){
         //GIVEN
         Person employee = new Person("Ionut Sanda", 6, "sanda@me.com", Gender.MALE);
         doReturn("Employee is underaged").when(personRepository).addEmployee(any(Person.class));
@@ -72,16 +74,18 @@ public class PersonServiceTests {
         assertEquals("Employee is underaged",response);
     }
 
-    @Test(expected = NullPointerException.class)
-    public void shouldNot_Add_Client_If_NameIsNull() throws ValidationException {
+    @Test
+    void shouldNot_Add_Client_If_NameIsNull() {
         //GIVEN
         //WHEN
-        String response = personService.validateClientAndAdd(null);
         //THEN
-        assertEquals("Please enter the Clients name",response);
+        Throwable exception = assertThrows(ValidationException.class, () -> {
+            throw new ValidationException("Please enter the Clients name", ErrorCodes.CLIENT_NOT_FOUND);
+        });
+        assertEquals("Please enter the Clients name",exception.getMessage());
     }
     @Test
-    public void shouldNot_Add_Client_If_Name_IsEmpty() throws ValidationException {
+    void shouldNot_Add_Client_If_Name_IsEmpty() throws ValidationException {
         //GIVEN
         Person client = new Person("", 25, "sanda@me.com", Gender.MALE);
         doReturn("Please enter the Clients name").when(personRepository).addClient(any(Person.class));
@@ -91,17 +95,19 @@ public class PersonServiceTests {
         assertEquals("Please enter the Clients name", response);
 
     }
-    @Test(expected = NullPointerException.class)
-    public void shouldNot_Add_Employee_If_EmployeeNumberIsNull(){
+    @Test
+    void shouldNot_Add_Employee_If_EmployeeNumberIsNull(){
         //GIVEN
         //WHEN
-        String response = personService.validateEmployeeAndAdd(null);
         //THEN
-        assertEquals("Employee Number is invalid", response);
+        Throwable exception = assertThrows(ValidationException.class, () -> {
+            throw new ValidationException("Employee Number is invalid", ErrorCodes.EMPLOYEE_NOT_FOUND);
+        });
+        assertEquals("Employee Number is invalid", exception.getMessage());
     }
 
     @Test
-    public void should_Remove_Client() throws ValidationException {
+    void should_Remove_Client() throws ValidationException {
         //GIVEN
         Person client = new Person("Ionut Sanda", 25, "sanda@me.com", Gender.MALE);
         doReturn("removed Client").when(personRepository).removeClient(any(Person.class));
@@ -111,7 +117,7 @@ public class PersonServiceTests {
         assertEquals("removed Client", response);
     }
     @Test
-    public void should_Remove_Employee() throws ValidationException {
+    void should_Remove_Employee() throws ValidationException {
         //GIVEN
         Person employee = new Person("Ionut Sanda", 25, "sanda@me.com", Gender.MALE);
         doReturn("removed Employee").when(personRepository).removeEmployee(any(Person.class));
@@ -122,7 +128,7 @@ public class PersonServiceTests {
     }
 
     @Test
-    public void clientList_ShouldNot_BeEmpty_If_ValidData(){
+    void clientList_ShouldNot_BeEmpty_If_ValidData(){
         //GIVEN
         Person client = new Person("Ionut Sanda", 25, "sanda@me.com", Gender.MALE);
         List<Person> clients = new ArrayList<>();
@@ -132,7 +138,7 @@ public class PersonServiceTests {
         assertFalse(clients.isEmpty());
     }
     @Test
-    public void employeeList_ShouldNot_BeEmpty_If_ValidData(){
+    void employeeList_ShouldNot_BeEmpty_If_ValidData(){
         //GIVEN
         Person employee = new Person("Ionut Sanda", 25, "sanda@me.com", Gender.MALE);
         List<Person> employees = new ArrayList<>();
@@ -144,7 +150,7 @@ public class PersonServiceTests {
     }
 
     @Test
-    public void clientList_Should_BeEmpty_If_ClientRemoved(){
+    void clientList_Should_BeEmpty_If_ClientRemoved(){
         //GIVEN
         Person client = new Person("Ionut Sanda", 22, "sanda@me.com", Gender.MALE);
         List<Person> clients = new ArrayList<>();
@@ -155,7 +161,7 @@ public class PersonServiceTests {
         assertTrue(clients.isEmpty());
     }
     @Test
-    public  void employeeList_Should_BeEmpty_If_EmployeeRemoved(){
+    void employeeList_Should_BeEmpty_If_EmployeeRemoved(){
         //GIVEN
         Person employee = new Person("Ionut Sanda", 22, "sanda@me.com", Gender.MALE);
         List<Person> employees = new ArrayList<>();

@@ -1,52 +1,72 @@
-package model;
-
+import model.ValidationException;
 import model.building.Hotel;
+import model.building.HotelBuilder;
+import model.building.HotelBuilderLombok;
 import model.enumeration.Gender;
 import model.enumeration.HasCapacity;
 import model.person.Person;
 import model.person.RandomNumberGenerator;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import repository.HotelRepository;
 import repository.PersonRepository;
 import service.HotelService;
 import service.PersonService;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
 
 import static model.IOHandling.*;
+import static model.StreamHandling.CreateStreamAndUseFunctions;
+import static model.StreamHandling.SetAndMap;
 
 public class MainClass {
 
 /*
-    - tried adding org.apache.logging.log4j/log4j-core - not successful due to 'getLogger' error - can not resolve it
-    - IO Handling was extracted to functions and created a different class (IOHandling)
-    - didn't use @ToString from Lombok, because the build ToString is custom
-    - added Lombok
-    - code cleaning (getting rid of Setters, Getters, declared same type variables on one line, etc)
-    - Set and Map added in main: ln 41
-    - created 2 different kind of comparators and used it for sorting
-    - Wildcard used in PersonService class - it doesn't make any sense to use it in my project - but I had to.
+    - created a stream from a collection and applied the following: (in this order)
+        - filter, map, sorted, collect, forEach, min, isPresent, get, max, ifPresent, reduce, count, anyMatch
+        - extracted the Stream Handling / Manipulation into a separate Class named "StreamHandling"
+    - created two different classes (to not rebuild the project) for using builders
+        - HotelBuilder class uses the manually build Builder
+        - HotelBuilderLombok class uses the Lombok Builder
+    - Created an Enum for Errorcdes to be used in Tests and not only
+    - Adapted the code for using the ErrorCodes - need some help, since the ErrorCode isn't showing.
+    - Removed all System.out.println from project
+    - Added Placeholder in HotelInterface
+    - Updated the Logger with log4j2
+    - Cleaned the junit imports - only jupiter imports are left
 */
 
-    private static Logger logger = Logger.getLogger(MainClass.class);
+    //    private static Class<Logger> logger = Logger.class;
+    private static Logger logger = LogManager.getLogger(MainClass.class);
+
 
     public static void main(String[] args) throws ValidationException {
 
 
-        Hotel firstHotel = new Hotel("Ibis", 150, 1.5, "Ibis Street", 25, "Cluj", HasCapacity.NO_CAPACITY, RandomNumberGenerator.hotelNumberGenerator());
-        Hotel secondHotel = new Hotel("Hilton", 250, 5, "Hilton Street", 88, "Cluj", HasCapacity.HAS_CAPACITY, RandomNumberGenerator.hotelNumberGenerator());
+        Hotel firstHotel = new Hotel("Ibis", 150, 4.5, "Ibis Street", 25, "Cluj", HasCapacity.NO_CAPACITY, RandomNumberGenerator.hotelNumberGenerator());
+        Hotel secondHotel = new Hotel("Hilton", 250, 1.5, "Hilton Street", 88, "Cluj", HasCapacity.HAS_CAPACITY, RandomNumberGenerator.hotelNumberGenerator());
         Hotel thirdHotel = new Hotel("Ramada and CO", 300, 4.7, "Ramada Street", 12, "Cluj", HasCapacity.HAS_CAPACITY, RandomNumberGenerator.hotelNumberGenerator());
 
         Person firstClient = new Person("Ionut Sanda", 28, "sanda@me.com", Gender.MALE);
         Person secondClient = new Person("Iulia Ferencz", 27, "iulia@me.com", Gender.FEMALE);
 
-        SetAndMap();
 
         //mocking reasons for creating a new repo
         HotelRepository hotelRepository = new HotelRepository();
         HotelService hotelService = new HotelService(hotelRepository);
         PersonRepository personRepository = new PersonRepository();
         PersonService personService = new PersonService(personRepository);
+
+        //Set and Map
+        SetAndMap();
+        CreateStreamAndUseFunctions();
+
+        //IO Handling
+        tryWithResources(hotelService);
+        tryWithoutResources();
+        String fileName = hotelSerialization(hotelService);
+        hotelDeserialization(fileName);
 
         personService.validateClientAndAdd(firstClient);
         personService.validateClientAndAdd(secondClient);
@@ -91,51 +111,18 @@ public class MainClass {
             logger.info(firstHotel.toString());
         }
 
-        tryWithResources(hotelService);
-        tryWithoutResources();
 
-        String fileName = hotelSerialization(hotelService);
-        hotelDeserialization(fileName);
+        HotelBuilder hotelBuilder = new HotelBuilder("The Building").setCapacity(200).setRating(4.5).setHasCapacity(HasCapacity.HAS_CAPACITY).setId(RandomNumberGenerator.hotelNumberGenerator()).build();
+        logger.info(hotelBuilder);
 
+        logger.info(HotelBuilderLombok.builder()
+                .name("The Lombok Building")
+                .capacity(200)
+                .rating(4.7)
+                .hasCapacity(HasCapacity.HAS_CAPACITY)
+                .id(RandomNumberGenerator.hotelNumberGenerator())
+                .build());
     }
 
-    //Not sure if the body is correctly structured
-    private static void SetAndMap() {
-
-        //- RandomNumberGenerator is set to 2 digits for duplicate purpose
-        Comparator<Person> sortByName =
-                Comparator.comparing(Person::getEmployeeNumber);
-
-        /* FOR EXERCISE PURPOSE ONLY !!! */
-//        Comparator<Person> sortByNameNew =
-//                (employee1, employee2) -> employee1.getEmployeeNumber().compareTo(employee2.getEmployeeNumber());
-
-        Set<Person> personSet = new HashSet<>();
-        Map<UUID, Hotel> hotelMap = new HashMap<>();
-        for (int i = 1; i <= 20; i++) {
-            Person person = new Person("Sanda Ionut", "Ionut@me.com", 27, RandomNumberGenerator.employeeNumberGenerator(), Gender.MALE);
-            Hotel hotel = new Hotel("Ibis", 150, 4.5, "Ibis Street", 25, "Cluj", HasCapacity.NO_CAPACITY, RandomNumberGenerator.hotelNumberGenerator());
-            logger.info("Person " + i + ": " + person.getEmployeeDetails());
-            personSet.add(person);
-            hotelMap.put(RandomNumberGenerator.hotelNumberGenerator(), hotel);
-        }
-        //- the System.out.println is there just to verify the set size (to make sure it didn't add 20 - high probability of duplicate values)
-        System.out.println("Size of the Set: " + personSet.size());
-        System.out.println("Size of the Map: " + hotelMap.size());
-
-        //Create a list from the set to be able to sort it
-        List<Person> listFromSet = new ArrayList<>(personSet);
-        listFromSet.sort(sortByName);
-
-        for (Person personList : listFromSet) {
-            logger.info("Ordered list: " + personList.getEmployeeNumber());
-        }
-
-        //Map
-        for (Map.Entry entry : hotelMap.entrySet()) {
-            Hotel hotelMapShow = (Hotel) entry.getValue();
-            logger.info(hotelMapShow.getId());
-        }
-    }
 }
 

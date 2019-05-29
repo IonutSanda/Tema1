@@ -9,31 +9,30 @@ import java.util.List;
  * which will be added through the MainClass
  */
 
-public interface HotelInterface {
+public interface HotelInterface<T> {
 
     /**
      * Add the hotel to a created list
      *
      * @param hotel - Hotel which will be added
      */
-    void add(Hotel hotel);
+    void add(T hotel);
 
     /**
      * Remove the hotel, which was added, from a created list
      *
      * @param hotel - Hotel which will be added
-     * @return it will return a String if the hotel is removed
      * @throws ValidationException - this is a custom exception which will throw a custom message
      *                             if the hotel can not be removed; Reason why it can not be removed
      *                             is that there are no hotels to remove from the list
      */
-    String remove(Hotel hotel) throws ValidationException;
+    void remove(T hotel) throws ValidationException;
 
     /**
      * Display the hotels which were added to the created list
      *
      * @return returns the list of the hotels
      */
-    List<Hotel> listHotels();
+    List<T> listHotels();
 
 }

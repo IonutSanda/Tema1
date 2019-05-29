@@ -1,2 +1,2 @@
-Hotel name: Hilton, Capacity: 250, Rating: 5.0
+Hotel name: Ibis, Capacity: 150, Rating: 4.5
 Hotel name: Ramada and CO, Capacity: 300, Rating: 4.7
