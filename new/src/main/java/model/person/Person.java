@@ -8,7 +8,7 @@ import model.enumeration.Gender;
 
 @Getter
 @Setter
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 @ToString
 public class Person {
 

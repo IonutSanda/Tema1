@@ -41,7 +41,7 @@ public class PersonService {
     }
 
 
-    String validateEmployeeAndAdd(Person employee) {
+    public String validateEmployeeAndAdd(Person employee) {
         if (employee.getEmployeeAge() < 21) {
             return "Employee is underaged";
         }

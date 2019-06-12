@@ -40,4 +40,5 @@ public class Hotel extends Address implements Serializable {
     public String toString() {
         return "Hotel name: " + name + ", Capacity: " + capacity + ", Rating: " + rating;
     }
+
 }

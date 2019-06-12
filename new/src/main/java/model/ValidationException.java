@@ -10,5 +10,4 @@ public class ValidationException extends Exception {
         super(message);
         this.code = code;
     }
-
 }

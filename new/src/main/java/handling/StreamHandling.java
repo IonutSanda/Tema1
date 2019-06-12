@@ -1,4 +1,4 @@
-package model;
+package handling;
 
 import model.building.Hotel;
 import model.enumeration.Gender;
@@ -10,6 +10,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class StreamHandling {
 
@@ -29,6 +30,11 @@ public class StreamHandling {
             Person person = new Person("Iulia Ferencz", "iulia@me.com", 28 + i, RandomNumberGenerator.employeeNumberGenerator(), Gender.FEMALE);
             personSetFunctions.add(person);
         }
+
+        //for homework and exercise purpose used the streamOf function
+        Stream <Set> streamOf = Stream.of(personSetFunctions);
+        streamOf.forEach(System.out::println);
+
 
         personSetFunctions.stream()
                 .filter(age -> age.getEmployeeAge() % 2 == 0)

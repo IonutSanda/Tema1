@@ -14,4 +14,8 @@ public class RandomNumberGenerator {
         return UUID.randomUUID();
     }
 
+    public static String checkedInNumberGenerator(){
+        return RandomStringUtils.randomNumeric(5);
+    }
+
 }

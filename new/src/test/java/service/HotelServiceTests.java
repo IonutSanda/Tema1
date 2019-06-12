@@ -39,7 +39,6 @@ class HotelServiceTests {
         //GIVEN
         Hotel hotel = new Hotel("Ibis", 250, 4.7, "Street", 26, "Cluj", HasCapacity.HAS_CAPACITY, RandomNumberGenerator.hotelNumberGenerator());
         doNothing().when(hotelRepository).add(hotel);
-
         verify(hotelRepository, times(0)).add(hotel);
 
     }

@@ -1,4 +1,4 @@
-package model;
+package handling;
 
 import model.building.Hotel;
 import org.apache.logging.log4j.LogManager;
@@ -53,8 +53,9 @@ public class IOHandling {
         //Deserialization of hotels
         try {
             ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(fileName));
+            while (objectInputStream.available() > 0)
             objectInputStream.readObject();
-            logger.debug("Deserialized");
+            logger.debug("Dematerialized");
             objectInputStream.close();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
