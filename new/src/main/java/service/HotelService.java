@@ -87,7 +87,7 @@ public class HotelService {
         synchronized (checkinList) {
             try {
                 Thread.sleep(RandomNumberGenerator.randomSleepTime() * 500);
-                logger.info("Checked in person: " + client + " at: " + checkInData.getDateAndTime());
+                logger.info("Checked in person: " + client + " at: " + new CheckInData().getDateAndTime());
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

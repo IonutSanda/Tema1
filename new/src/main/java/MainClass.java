@@ -47,7 +47,6 @@ public class MainClass {
         HotelService hotelService = new HotelService(hotelRepository);
         PersonRepository personRepository = new PersonRepository();
         PersonService personService = new PersonService(personRepository);
-        CheckInData checkInData = new CheckInData();
 
         //Set and Map
         SetAndMap();
@@ -101,9 +100,7 @@ public class MainClass {
                     try {
                         Thread.sleep(RandomNumberGenerator.randomSleepTime());
                         hotelService.checkIn(client, hotelService.getRandomHotel());
-//                        logger.info("Client: " + client.getClientName() + " has checked in at: " + checkInData.getTime() + " on " + checkInData.getDate());
                         logger.info("Client: " + client.getClientName() + " has checked in at: " + new CheckInData().getTime() + " on " + new CheckInData().getDate());
-//                        logger.info("Client: " + client.getClientName() + HotelStatisticsThread.getFullStatistics());
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
