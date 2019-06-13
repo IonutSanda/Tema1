@@ -6,20 +6,20 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 
-class CheckInData {
+public class CheckInData {
 
     private static LocalTime localTime = LocalTime.now().truncatedTo(ChronoUnit.SECONDS);
     private static LocalDate localDate = LocalDate.now();
 
-    static String getDateAndTime() {
+    public static String getDateAndTime() {
         return "Client has checked in at: " + localTime + " on " + localDate + " CheckIn ID: " + RandomNumberGenerator.checkedInNumberGenerator();
     }
 
-    static LocalDate getDate() {
+    public static LocalDate getDate() {
         return localDate;
     }
 
-    static LocalTime getTime() {
+    public static LocalTime getTime() {
         return localTime;
     }
 }

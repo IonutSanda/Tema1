@@ -1,4 +1,4 @@
-import handling.thread.ClientThread;
+import handling.thread.CheckInData;
 import handling.thread.HotelStatisticsThread;
 import model.ValidationException;
 import model.building.Hotel;
@@ -17,6 +17,7 @@ import service.PersonService;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 import static handling.IOHandling.*;
 import static handling.StreamHandling.CreateStreamAndUseFunctions;
@@ -27,16 +28,20 @@ public class MainClass {
     private static Logger logger = LogManager.getLogger(MainClass.class);
 
 
-    public static void main(String[] args) throws ValidationException {
+    public static void main(String[] args) throws ValidationException, InterruptedException {
 
 
         Hotel firstHotel = new Hotel("Ibis", 150, 4.5, "Ibis Street", 25, "Cluj", HasCapacity.NO_CAPACITY, RandomNumberGenerator.hotelNumberGenerator());
         Hotel secondHotel = new Hotel("Hilton", 250, 1.5, "Hilton Street", 88, "Cluj", HasCapacity.HAS_CAPACITY, RandomNumberGenerator.hotelNumberGenerator());
         Hotel thirdHotel = new Hotel("Ramada and CO", 300, 4.7, "Ramada Street", 12, "Cluj", HasCapacity.HAS_CAPACITY, RandomNumberGenerator.hotelNumberGenerator());
+        Hotel forthHotel = new Hotel("Castel and CO", 200, 4.7, "Castel Street", 32, "Cluj", HasCapacity.HAS_CAPACITY, RandomNumberGenerator.hotelNumberGenerator());
+        Hotel fifthHotel = new Hotel("Hotel and CO", 350, 4.7, "Hotel Street", 2, "Cluj", HasCapacity.HAS_CAPACITY, RandomNumberGenerator.hotelNumberGenerator());
 
         Person firstClient = new Person("Ionut Sanda", 28, "sanda@me.com", Gender.MALE);
         Person secondClient = new Person("Iulia Ferencz", 27, "iulia@me.com", Gender.FEMALE);
-
+        Person thridClient = new Person("Marin Sanda", 47, "marin@me.com", Gender.MALE);
+        Person forthClient = new Person("Iuliu Ferencz", 55, "iuliu@me.com", Gender.MALE);
+        Person fifthClient = new Person("Alin Sanda", 37, "alin@me.com", Gender.MALE);
 
         //mocking reasons for creating a new repo
         HotelRepository hotelRepository = new HotelRepository();
@@ -56,9 +61,14 @@ public class MainClass {
 
         personService.validateClientAndAdd(firstClient);
         personService.validateClientAndAdd(secondClient);
+        personService.validateClientAndAdd(thridClient);
+        personService.validateClientAndAdd(forthClient);
+        personService.validateClientAndAdd(fifthClient);
         hotelService.validateAndAdd(firstHotel);
         hotelService.validateAndAdd(secondHotel);
         hotelService.validateAndAdd(thirdHotel);
+        hotelService.validateAndAdd(forthHotel);
+        hotelService.validateAndAdd(fifthHotel);
 
         //New method in PersonService class called getClientsList where I used a wildcard
         List<?> clientsNew = Arrays.asList(firstClient, secondClient);
@@ -84,6 +94,20 @@ public class MainClass {
             logger.info("E-mail: " + client.getClientEmail());
             logger.info("Age: " + client.getClientAge());
             logger.info("Gender: " + client.getGender());
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(RandomNumberGenerator.randomSleepTime());
+                        hotelService.checkIn(client, hotelService.getRandomHotel());
+                        logger.info("Client: " + client.getClientName() + " has checked in at: " + CheckInData.getTime() + " on " + CheckInData.getDate());
+//                        logger.info("Client: " + client.getClientName() + HotelStatisticsThread.getFullStatistics());
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
         }
 
         for (Person forEmployee : personService.getEmployees()) {
@@ -109,13 +133,6 @@ public class MainClass {
                 .id(RandomNumberGenerator.hotelNumberGenerator())
                 .build());
 
-        ClientThread clientThread = new ClientThread(personService.getClients(), personRepository);
-        HotelStatisticsThread hotelStatisticsThread = new HotelStatisticsThread(personRepository);
-
-        hotelStatisticsThread.getStatistics();
-        clientThread.startThreads();
-
-//        HotelStatisticsThread.run(personService.getClients());
     }
 }
 
