@@ -18,34 +18,32 @@ public class HotelService {
 
     private HotelRepository hotelRepository;
     private final Map<Hotel, List<Person>> checkinList = new HashMap<>();
+    private CheckInData checkInData = new CheckInData();
 
     public HotelService(HotelRepository hotelRepository) {
 
         this.hotelRepository = hotelRepository;
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                int counter = 10;
-                while (counter >=0) {
-                    synchronized (checkinList) {
-                        if (checkinList.size() > 0) {
-                            counter = 3;
-                        } else {
-                            counter--;
-                        }
-                        for (Map.Entry<Hotel, List<Person>> entry : checkinList.entrySet()) {
-                            logger.info("Hotel Statistics: " + entry.getKey());
-                            logger.info(" Person Statistics: " + Arrays.toString(entry.getValue().toArray()) + /*HotelStatisticsThread.getCheckInStatistics() +*/ HotelStatisticsThread.getFullStatistics());
-                        }
-
-                        checkinList.clear();
+        new Thread(() -> {
+            int counter = 10;
+            while (counter >=0) {
+                synchronized (checkinList) {
+                    if (checkinList.size() > 0) {
+                        counter = 3;
+                    } else {
+                        counter--;
+                    }
+                    for (Map.Entry<Hotel, List<Person>> entry : checkinList.entrySet()) {
+                        logger.info("Hotel Statistics: " + entry.getKey());
+                        logger.info(" Person Statistics: " + Arrays.toString(entry.getValue().toArray()) + /*HotelStatisticsThread.getCheckInStatistics() +*/ HotelStatisticsThread.getFullStatistics());
                     }
 
-                    try {
-                        Thread.sleep(5000);
-                    } catch (InterruptedException e) {
-                        break;
-                    }
+                    checkinList.clear();
+                }
+
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                    break;
                 }
             }
         }).start();
@@ -88,8 +86,8 @@ public class HotelService {
     public void checkIn(Person client, Hotel hotel) {
         synchronized (checkinList) {
             try {
-                Thread.sleep(3000);
-                logger.info("Checked in person: " + client + " at: " + CheckInData.getDateAndTime());
+                Thread.sleep(RandomNumberGenerator.randomSleepTime() * 500);
+                logger.info("Checked in person: " + client + " at: " + checkInData.getDateAndTime());
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

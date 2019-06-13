@@ -8,18 +8,18 @@ import java.time.temporal.ChronoUnit;
 
 public class CheckInData {
 
-    private static LocalTime localTime = LocalTime.now().truncatedTo(ChronoUnit.SECONDS);
-    private static LocalDate localDate = LocalDate.now();
+    private LocalTime localTime = LocalTime.now().truncatedTo(ChronoUnit.SECONDS);
+    private LocalDate localDate = LocalDate.now();
 
-    public static String getDateAndTime() {
+    public String getDateAndTime() {
         return "Client has checked in at: " + localTime + " on " + localDate + " CheckIn ID: " + RandomNumberGenerator.checkedInNumberGenerator();
     }
 
-    public static LocalDate getDate() {
+    public LocalDate getDate() {
         return localDate;
     }
 
-    public static LocalTime getTime() {
+    public LocalTime getTime() {
         return localTime;
     }
 }

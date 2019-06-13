@@ -30,7 +30,6 @@ public class MainClass {
 
     public static void main(String[] args) throws ValidationException, InterruptedException {
 
-
         Hotel firstHotel = new Hotel("Ibis", 150, 4.5, "Ibis Street", 25, "Cluj", HasCapacity.NO_CAPACITY, RandomNumberGenerator.hotelNumberGenerator());
         Hotel secondHotel = new Hotel("Hilton", 250, 1.5, "Hilton Street", 88, "Cluj", HasCapacity.HAS_CAPACITY, RandomNumberGenerator.hotelNumberGenerator());
         Hotel thirdHotel = new Hotel("Ramada and CO", 300, 4.7, "Ramada Street", 12, "Cluj", HasCapacity.HAS_CAPACITY, RandomNumberGenerator.hotelNumberGenerator());
@@ -39,7 +38,7 @@ public class MainClass {
 
         Person firstClient = new Person("Ionut Sanda", 28, "sanda@me.com", Gender.MALE);
         Person secondClient = new Person("Iulia Ferencz", 27, "iulia@me.com", Gender.FEMALE);
-        Person thridClient = new Person("Marin Sanda", 47, "marin@me.com", Gender.MALE);
+        Person thirdClient = new Person("Marin Sanda", 47, "marin@me.com", Gender.MALE);
         Person forthClient = new Person("Iuliu Ferencz", 55, "iuliu@me.com", Gender.MALE);
         Person fifthClient = new Person("Alin Sanda", 37, "alin@me.com", Gender.MALE);
 
@@ -48,6 +47,7 @@ public class MainClass {
         HotelService hotelService = new HotelService(hotelRepository);
         PersonRepository personRepository = new PersonRepository();
         PersonService personService = new PersonService(personRepository);
+        CheckInData checkInData = new CheckInData();
 
         //Set and Map
         SetAndMap();
@@ -61,7 +61,7 @@ public class MainClass {
 
         personService.validateClientAndAdd(firstClient);
         personService.validateClientAndAdd(secondClient);
-        personService.validateClientAndAdd(thridClient);
+        personService.validateClientAndAdd(thirdClient);
         personService.validateClientAndAdd(forthClient);
         personService.validateClientAndAdd(fifthClient);
         hotelService.validateAndAdd(firstHotel);
@@ -101,7 +101,8 @@ public class MainClass {
                     try {
                         Thread.sleep(RandomNumberGenerator.randomSleepTime());
                         hotelService.checkIn(client, hotelService.getRandomHotel());
-                        logger.info("Client: " + client.getClientName() + " has checked in at: " + CheckInData.getTime() + " on " + CheckInData.getDate());
+//                        logger.info("Client: " + client.getClientName() + " has checked in at: " + checkInData.getTime() + " on " + checkInData.getDate());
+                        logger.info("Client: " + client.getClientName() + " has checked in at: " + new CheckInData().getTime() + " on " + new CheckInData().getDate());
 //                        logger.info("Client: " + client.getClientName() + HotelStatisticsThread.getFullStatistics());
                     } catch (InterruptedException e) {
                         e.printStackTrace();

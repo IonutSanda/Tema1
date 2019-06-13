@@ -19,7 +19,7 @@ public class RandomNumberGenerator {
     }
 
     public static Integer randomSleepTime () {
-        return Integer.valueOf(RandomStringUtils.randomNumeric(2));
+        return Integer.valueOf(RandomStringUtils.randomNumeric(1));
     }
 
     public static int randomHotelAssignment (int max, int min) {
