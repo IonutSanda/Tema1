@@ -8,8 +8,8 @@ import model.enumeration.HasCapacity;
 import java.io.Serializable;
 import java.util.UUID;
 
-@Setter
 @Getter
+@Setter
 public class Hotel extends Address implements Serializable {
 
     private UUID id;
@@ -17,6 +17,12 @@ public class Hotel extends Address implements Serializable {
     private int capacity;
     private double rating;
     private HasCapacity hasCapacity;
+    //for DB purpose only
+    private int idList;
+    private boolean availabilityList;
+    private String nameList;
+    private double ratingList;
+    private int capacityList;
 
     public Hotel(String name, int capacity, double rating, String streetName, int number, String city, HasCapacity hasCapacity, UUID id) {
         super(streetName, number, city);
@@ -25,6 +31,9 @@ public class Hotel extends Address implements Serializable {
         this.rating = rating;
         this.hasCapacity = hasCapacity;
         this.id = id;
+    }
+
+    public Hotel() {
     }
 
     public String isAvailable() {
@@ -38,7 +47,11 @@ public class Hotel extends Address implements Serializable {
 
     @Override
     public String toString() {
-        return "Hotel name: " + name + ", Capacity: " + capacity + ", Rating: " + rating;
+        return "Hotel ID: " + idList + ", Name: " + nameList+ ", Capacity: " + capacityList;
+    }
+
+    public String toStringList() {
+        return "ID: " + id + ", Name: " + name + ", Capacity: " + capacity + ", Rating: " + rating + ", Available: " + isAvailable();
     }
 
 }

@@ -15,4 +15,6 @@ public class Address implements Serializable {
     private int number;
     private String city;
 
+    public Address (){
+    }
 }

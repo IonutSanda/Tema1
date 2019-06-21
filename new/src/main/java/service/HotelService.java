@@ -18,7 +18,6 @@ public class HotelService {
 
     private HotelRepository hotelRepository;
     private final Map<Hotel, List<Person>> checkinList = new HashMap<>();
-    private CheckInData checkInData = new CheckInData();
 
     public HotelService(HotelRepository hotelRepository) {
 
